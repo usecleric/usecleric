@@ -1,503 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Use Cleric</title>
-  <!-- Fonte moderna feminina -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usecleric - Moda Feminina</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Reset básico */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #fffaf6;
-      color: #4a3c3c;
-      display: flex;
-      min-height: 100vh;
-    }
-    /* Sidebar menu */
-    nav {
-      width: 220px;
-      background: #f2c1c1;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      color: #6a3a3a;
-    }
-    nav h2 {
-      margin: 0 0 10px 0;
-      font-weight: 600;
-      font-size: 1.5rem;
-      border-bottom: 2px solid #b35656;
-      padding-bottom: 6px;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: #6a3a3a;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: left;
-      padding: 6px 0;
-      outline: none;
-    }
-    nav button:hover, nav button.active {
-      color: #b35656;
-    }
-    /* Submenus produtos */
-    .submenu {
-      display: none;
-      margin-left: 15px;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .submenu button {
-      font-weight: 400;
-      font-size: 1rem;
-      color: #7a4a4a;
-      padding-left: 8px;
-    }
-    .submenu button:hover, .submenu button.active {
-      color: #b35656;
-    }
+    /* Reset de estilos */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #f9f9f9; color: #333; }
+    h1, h2, h3 { font-family: 'Roboto', sans-serif; font-weight: 700; }
+    a { text-decoration: none; color: inherit; }
 
-    /* Conteúdo principal */
-    main {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #b35656;
-      padding-bottom: 10px;
-      color: #b35656;
-    }
-    header h1 {
-      margin: 0;
-      font-weight: 600;
-      font-size: 3rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-    header p {
-      margin: 4px 0 0 0;
-      font-style: italic;
-      font-weight: 400;
-      font-size: 1.3rem;
-      text-transform: lowercase;
-      color: #7a4a4a;
-    }
-
-    /* Produtos listagem */
-    .product-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
-      gap: 20px;
-    }
-    .product-card {
-      background: #fff;
-      border: 1px solid #e5c1c1;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(179, 86, 86, 0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product-card h3 {
-      margin: 0 0 8px 0;
-      font-weight: 600;
-      color: #b35656;
-      font-size: 1.2rem;
-    }
-    .product-card p {
-      margin: 0 0 12px 0;
-      font-weight: 500;
-      color: #7a4a4a;
-      font-size: 1.1rem;
-    }
-    .product-card button {
-      background-color: #b35656;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .product-card button:hover {
-      background-color: #a04444;
-    }
-
-    /* Carrinho no canto direito */
-    #cart {
-      width: 300px;
-      background: #f9eaea;
-      border-left: 3px solid #b35656;
-      padding: 20px;
-      position: fixed;
-      right: 0;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 999;
-    }
-    #cart h2 {
-      margin-top: 0;
-      color: #b35656;
-      font-weight: 600;
-      border-bottom: 2px solid #b35656;
-      padding-bottom: 6px;
-    }
-    #cart-list {
-      flex: 1;
-      overflow-y: auto;
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #e5c1c1;
-      padding: 8px 0;
-      font-size: 1rem;
-      color: #7a4a4a;
-    }
-    .cart-item span {
-      flex: 1;
-    }
-    .cart-item button {
-      background: none;
-      border: none;
-      color: #b35656;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 1.2rem;
-      margin-left: 8px;
-      line-height: 1;
-      padding: 0 6px;
-    }
-    #cart-total {
-      font-weight: 600;
-      font-size: 1.2rem;
-      border-top: 2px solid #b35656;
-      padding-top: 12px;
-      color: #b35656;
-      text-align: right;
-    }
-    #cart button#finalize {
-      margin-top: 15px;
-      background-color: #b35656;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: background-color 0.3s ease;
-    }
-    #cart button#finalize:hover {
-      background-color: #a04444;
-    }
-
-    /* Aba conteúdo */
-    .tab-content {
-      display: none;
-      flex-direction: column;
-    }
-    .tab-content.active {
-      display: flex;
-    }
-    /* Responsividade */
-    @media(max-width: 900px) {
-      nav {
-        width: 160px;
-        font-size: 0.9rem;
-      }
-      main {
-        padding: 10px;
-      }
-      #cart {
-        width: 100%;
-        height: 250px;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        border-left: none;
-        border-top: 3px solid #b35656;
-        padding: 15px;
-        flex-direction: row;
-        overflow-x: auto;
-        overflow-y: hidden;
-      }
-      #cart-list {
-        flex: none;
-        white-space: nowrap;
-      }
-      .cart-item {
-        display: inline-block;
-        border: 1px solid #e5c1c1;
-        margin-right: 8px;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 0.9rem;
-      }
-      #cart button#finalize {
-        margin-left: 10px;
-        margin-top: 0;
-        padding: 8px 14px;
-        font-size: 1rem;
-      }
-    }
+    /* Layout */
+    header { background: #fff; padding: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .container { width: 90%; margin: 0 auto; }
+    .logo { font-size: 24px; font-weight: 600; color: #333; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    nav a { margin: 0 15px; font-weight: 600; color: #333; }
+    .banner { background: url('banner.jpg') center/cover no-repeat; height: 300px; display: flex; justify-content: center; align-items: center; color: #fff; text-align: center; }
+    .banner h2 { font-size: 36px; font-weight: 700; }
+    .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 40px 0; }
+    .product-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+    .product-card img { width: 100%; height: auto; border-radius: 8px; }
+    .product-card h3 { margin-top: 15px; font-size: 18px; font-weight: 600; }
+    .product-card p { margin: 10px 0; font-size: 16px; font-weight: 400; }
+    .product-card button { background: #a97c50; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: 600; cursor: pointer; }
+    .product-card button:hover { background: #8c6742; }
+    footer { background: #333; color: #fff; padding: 20px 0; text-align: center; }
+    footer p { font-size: 14px; }
   </style>
 </head>
 <body>
 
-  <nav>
-    <h2>Menu</h2>
-    <button id="tab-produtos-btn" class="active">Produtos ▾</button>
-    <div class="submenu" id="submenu-produtos" style="display:flex;">
-      <button class="submenu-btn active" data-tab="vestuario">Vestuário</button>
-      <button class="submenu-btn" data-tab="casa">Casa</button>
-      <button class="submenu-btn" data-tab="presentes">Presentes</button>
-    </div>
-    <button id="tab-presente-btn">Presente</button>
-  </nav>
+<header>
+  <div class="container">
+    <div class="logo">Usecleric</div>
+    <nav>
+      <a href="#home">Início</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
 
-  <main>
-    <header>
-      <h1>Use Cleric</h1>
-      <p>fios que inspiram</p>
-    </header>
+<div class="banner">
+  <div>
+    <h2>Estilo e Conforto para Você</h2>
+    <p>Descubra nossas coleções exclusivas</p>
+  </div>
+</div>
 
-    <!-- Conteúdo Vestuário -->
-    <section id="vestuario" class="tab-content active">
-      <div class="product-list">
-        <div class="product-card" data-name="Cropped encanto" data-price="149.99">
-          <h3>Cropped encanto</h3>
-          <p>R$ 149,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Cropped clea" data-price="129.99">
-          <h3>Cropped clea</h3>
-          <p>R$ 129,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Cropped frente única" data-price="99.99">
-          <h3>Cropped frente única</h3>
-          <p>R$ 99,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Saída de praia sereia" data-price="99.99">
-          <h3>Saída de praia sereia</h3>
-          <p>R$ 99,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Cropped jade" data-price="119.99">
-          <h3>Cropped jade</h3>
-          <p>R$ 119,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Conjunto jasmin" data-price="249.99">
-          <h3>Conjunto jasmin</h3>
-          <p>R$ 249,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Biquínis" data-price="139.99">
-          <h3>Biquínis</h3>
-          <p>R$ 139,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Cropped drapeado" data-price="159.99">
-          <h3>Cropped drapeado</h3>
-          <p>R$ 159,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Cropped safira" data-price="149.99">
-          <h3>Cropped safira</h3>
-          <p>R$ 149,99</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-      </div>
-    </section>
+<section id="produtos" class="products">
+  <div class="product-card">
+    <img src="produto1.jpg" alt="Produto 1">
+    <h3>Cropped Jade</h3>
+    <p>R$ 119,99</p>
+    <button>Adicionar ao Carrinho</button>
+  </div>
+  <div class="product-card">
+    <img src="produto2.jpg" alt="Produto 2">
+    <h3>Conjunto Jasmin</h3>
+    <p>R$ 249,99</p>
+    <button>Adicionar ao Carrinho</button>
+  </div>
+  <!-- Adicione mais produtos conforme necessário -->
+</section>
 
-    <!-- Conteúdo Casa -->
-    <section id="casa" class="tab-content">
-      <div class="product-list">
-        <div class="product-card" data-name="Conjunto suplast 4 peças" data-price="160.00">
-          <h3>Conjunto suplast 4 peças</h3>
-          <p>R$ 160,00</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Conjunto suplast 6 peças" data-price="230.00">
-          <h3>Conjunto suplast 6 peças</h3>
-          <p>R$ 230,00</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Tapete círculo" data-price="140.00">
-          <h3>Tapete círculo</h3>
-          <p>R$ 140,00</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Passadeira" data-price="140.00">
-          <h3>Passadeira</h3>
-          <p>R$ 140,00</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-        <div class="product-card" data-name="Fronha" data-price="120.00">
-          <h3>Fronha</h3>
-          <p>R$ 120,00</p>
-          <button class="add-cart">Adicionar ao carrinho</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Conteúdo Presentes -->
-    <section id="presentes" class="tab-content">
-      <p style="font-style: italic; color: #7a4a4a; font-size: 1.2rem;">
-        Em breve novidades
-      </p>
-    </section>
-
-    <!-- Conteúdo Presente -->
-    <section id="presente" class="tab-content">
-      <p style="font-style: italic; color: #7a4a4a; font-size: 1.2rem; text-align: center; margin-top: 60px;">
-        Em breve novidades
-      </p>
-    </section>
-  </main>
-
-  <!-- Carrinho -->
-  <aside id="cart">
-    <h2>Carrinho</h2>
-    <div id="cart-list"></div>
-    <div id="cart-total">Total: R$ 0,00</div>
-    <button id="finalize">Finalizar pedido</button>
-  </aside>
-
-<script>
-  // Menu lateral e tabs
-  const tabProdutosBtn = document.getElementById('tab-produtos-btn');
-  const submenuProdutos = document.getElementById('submenu-produtos');
-  const tabPresenteBtn = document.getElementById('tab-presente-btn');
-  const submenuBtns = document.querySelectorAll('.submenu-btn');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  // Mostrar submenu produtos
-  tabProdutosBtn.addEventListener('click', () => {
-    if(submenuProdutos.style.display === 'flex') {
-      submenuProdutos.style.display = 'none';
-      tabProdutosBtn.classList.remove('active');
-    } else {
-      submenuProdutos.style.display = 'flex';
-      tabProdutosBtn.classList.add('active');
-    }
-  });
-
-  // Alternar abas produtos (vestuario, casa, presentes)
-  submenuBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      submenuBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      tabContents.forEach(tc => tc.classList.remove('active'));
-      document.getElementById(btn.dataset.tab).classList.add('active');
-    });
-  });
-
-  // Alternar aba Presente
-  tabPresenteBtn.addEventListener('click', () => {
-    submenuProdutos.style.display = 'none';
-    tabProdutosBtn.classList.remove('active');
-    submenuBtns.forEach(b => b.classList.remove('active'));
-    tabContents.forEach(tc => tc.classList.remove('active'));
-    document.getElementById('presente').classList.add('active');
-  });
-
-  // Carrinho
-  const cartList = document.getElementById('cart-list');
-  const cartTotal = document.getElementById('cart-total');
-  const finalizeBtn = document.getElementById('finalize');
-
-  let cart = [];
-
-  // Atualizar carrinho na tela
-  function updateCart() {
-    cartList.innerHTML = '';
-    let total = 0;
-    cart.forEach((item, index) => {
-      total += item.price * item.qty;
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <span>${item.name} x${item.qty}</span>
-        <span>R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</span>
-        <button title="Remover item" data-index="${index}">&times;</button>
-      `;
-      cartList.appendChild(div);
-    });
-    cartTotal.textContent = 'Total: R$ ' + total.toFixed(2).replace('.', ',');
-    // Adicionar eventos para remover item
-    const removeBtns = cartList.querySelectorAll('button');
-    removeBtns.forEach(btn => {
-      btn.addEventListener('click', e => {
-        const idx = e.target.dataset.index;
-        cart.splice(idx,1);
-        updateCart();
-      });
-    });
-  }
-
-  // Adicionar produto ao carrinho
-  document.querySelectorAll('.add-cart').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const card = btn.closest('.product-card');
-      const name = card.dataset.name;
-      const price = parseFloat(card.dataset.price);
-
-      const existing = cart.find(i => i.name === name);
-      if(existing){
-        existing.qty++;
-      } else {
-        cart.push({name, price, qty:1});
-      }
-      updateCart();
-    });
-  });
-
-  // Finalizar pedido - abrir WhatsApp
-  finalizeBtn.addEventListener('click', () => {
-    if(cart.length === 0) {
-      alert('Seu carrinho está vazio!');
-      return;
-    }
-    let message = 'Olá, gostaria de fazer o pedido:\n';
-    cart.forEach(item => {
-      message += `- ${item.name} x${item.qty} = R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}\n`;
-    });
-    let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-    message += `Total: R$ ${total.toFixed(2).replace('.', ',')}\n\nForma de pagamento: PIX / Débito / Cartão de crédito\n`;
-    message += 'Por favor, me informe os próximos passos para pagamento e entrega.';
-    const phone = '5527981224975'; // seu número sem espaços e sinais
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-  });
-</script>
+<footer>
+  <p>&copy; 2025 Usecleric | Todos os direitos reservados</p>
+</footer>
 
 </body>
 </html>
